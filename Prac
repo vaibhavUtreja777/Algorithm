@@ -1,0 +1,582 @@
+
+
+Q1//////////////////////////////*//////////////////////////////////
+1) Write a program to sort the elements of an array using Insertion Sort (The program
+should report the number of comparisons).
+
+#include <iostream>
+using namespace std;
+
+// Function to sort an array using
+// insertion sort and count the number of comparisons
+void insertionSort(int arr[], int n, int &comparisons)
+{
+    int i, key, j;
+    comparisons = 0; // Initialize comparisons count
+    for (i = 1; i < n; i++) {
+        key = arr[i];
+        j = i - 1;
+
+        // Count comparisons and move elements
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+            comparisons++;
+        }
+        arr[j + 1] = key;
+    }
+}
+
+// A utility function to print an array
+// of size n
+
+
+// Driver code
+int main()
+{
+    int N, comparisons;
+    cout << "Enter the number of elements: ";
+    cin >> N;
+
+    int arr[N];
+    cout << "Enter " << N << " elements:\n";
+    for (int i = 0; i < N; i++)
+        cin >> arr[i];
+
+    insertionSort(arr, N, comparisons);
+
+    cout << "Sorted array: ";
+    for (int i = 0; i < N; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+    cout << "Number of comparisons: " << comparisons << endl;
+
+    return 0;
+}
+
+
+
+
+//////////////////////////////////////Q2/////////////////////////////////////
+Q2   
+Write a program to sort the elements of an array using Merge Sort (The program
+should report the number of comparisons).
+
+
+
+
+
+
+#include <iostream>  
+  
+using namespace std;  
+
+/* Function to merge the subarrays of a[] and count comparisons */  
+int merge(int a[], int beg, int mid, int end)    
+{    
+    int i, j, k, comparisons = 0;  
+    int n1 = mid - beg + 1;    
+    int n2 = end - mid;    
+      
+    int LeftArray[n1], RightArray[n2]; //temporary arrays  
+      
+    /* copy data to temp arrays */  
+    for (int i = 0; i < n1; i++)    
+        LeftArray[i] = a[beg + i];    
+    for (int j = 0; j < n2; j++)    
+        RightArray[j] = a[mid + 1 + j];    
+      
+    i = 0; /* initial index of first sub-array */  
+    j = 0; /* initial index of second sub-array */   
+    k = beg;  /* initial index of merged sub-array */  
+      
+    while (i < n1 && j < n2)    
+    {    
+        if(LeftArray[i] <= RightArray[j])    
+        {    
+            a[k] = LeftArray[i];    
+            i++;    
+        }    
+        else    
+        {    
+            a[k] = RightArray[j];    
+            j++;    
+        }
+        comparisons++; // Increment comparisons count
+        k++;    
+    }    
+    while (i < n1)    
+    {    
+        a[k] = LeftArray[i];    
+        i++;    
+        k++;    
+    }    
+      
+    while (j < n2)    
+    {    
+        a[k] = RightArray[j];    
+        j++;    
+        k++;    
+    }
+
+    return comparisons; // Return comparisons count
+}    
+
+int mergeSort(int a[], int beg, int end)  
+{  
+    int comparisons = 0;
+    if (beg < end)   
+    {  
+        int mid = (beg + end) / 2;  
+        comparisons += mergeSort(a, beg, mid);  
+        comparisons += mergeSort(a, mid + 1, end);  
+        comparisons += merge(a, beg, mid, end);  
+    }  
+    return comparisons;
+}  
+
+int main()  
+{  
+    int n;
+    cout << "Enter the size of the array: ";
+    cin >> n;
+    int a[n];
+    cout << "Before sorting, array elements are: " << endl;  
+    for (int i = 0; i < n; i++) { 
+        cout << "Enter a number: "; 
+        cin >> a[i]; 
+    } 
+    
+    int comparisons = mergeSort(a, 0, n - 1);  
+    cout << "The array elements after sorting are: "; 
+    for (int i = 0; i < n; i++) { 
+        cout << a[i] << " "; 
+    }  
+    cout << "\nNumber of comparisons: " << comparisons << endl;
+    return 0;  
+}
+
+
+
+
+////////////////////////////////////////q3 /////////////////////////////////////
+Q3 
+Write a program to sort the elements of an array using Heap Sort (The program
+should report the number of comparisons).
+
+
+
+
+///////////////////////////////////////////////////Q4//////////////////////////////////////////
+Q4 
+#include <iostream>
+using namespace std;
+
+int partition(int arr[], int low, int high, int &comparisons) {
+    int pivot = arr[high];
+    int i = low - 1;
+    for (int j = low; j <= high - 1; j++) {
+        if (arr[j] <= pivot) {
+            i++;
+            swap(arr[i], arr[j]);
+            comparisons++; // Increment comparisons count
+        }
+    }
+    swap(arr[i + 1], arr[high]);
+    comparisons++; // Increment comparisons count for the final swap
+    return (i + 1);
+}
+
+void quick_sort(int arr[], int low, int high, int &comparisons) {
+    if (low < high) {
+        int pivot = partition(arr, low, high, comparisons);
+        quick_sort(arr, low, pivot - 1, comparisons);
+        quick_sort(arr, pivot + 1, high, comparisons);
+    }
+}
+
+int main() {
+    cout << "Enter number of Elements in array : ";
+    int n;
+    cin >> n;
+    int a[n];
+    for (int i = 0; i < n; i++) {
+        cout << "Element [" << i + 1 << "]: ";
+        cin >> a[i];
+    }
+
+    cout << "Inputted Array : ";
+    for (int i = 0; i < n; i++) {
+        cout << a[i] << " ";
+    }
+    cout << endl;
+
+    int comparisons = 0; // Initialize comparisons count
+    quick_sort(a, 0, n - 1, comparisons);
+
+    cout << "Sorted Array : ";
+    for (int i = 0; i < n; i++) {
+        cout << a[i] << " ";
+    }
+    cout << endl;
+
+    cout << "Number of comparisons: " << comparisons << endl; // Print comparisons count
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////Q5////////////////////////////////////////////////
+Write a program to multiply two matrices using the Strassen’s algorithm for matrix
+multiplication.
+
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+void strassenMatrixMultiply2x2(int A[2][2], int B[2][2], int C[2][2]) {
+    int a11 = A[0][0], a12 = A[0][1], a21 = A[1][0], a22 = A[1][1];
+    int b11 = B[0][0], b12 = B[0][1], b21 = B[1][0], b22 = B[1][1];
+
+    int P = (a11 + a22) * (b11 + b22);
+    int Q = (a21 + a22) * b11;
+    int R = a11 * (b12 - b22);
+    int S = a22 * (b21 - b11);
+    int T = (a11 + a12) * b22;
+    int U = (a21 - a11) * (b11 + b12);
+    int V = (a12 - a22) * (b21 + b22);
+
+    C[0][0] = P + S - T + V;
+    C[0][1] = R + T;
+    C[1][0] = Q + S;
+    C[1][1] = P + R - Q + U;
+}
+
+int main() {
+    int A[2][2], B[2][2], C[2][2];
+
+    cout << "Enter elements of Matrix A (2x2):\n";
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
+            cout << "Enter element A[" << i << "][" << j << "]: ";
+            cin >> A[i][j];
+        }
+    }
+
+    cout << "Enter elements of Matrix B (2x2):\n";
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
+            cout << "Enter element B[" << i << "][" << j << "]: ";
+            cin >> B[i][j];
+        }
+    }
+
+    strassenMatrixMultiply2x2(A, B, C);
+
+    cout << "Matrix A:\n";
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
+            cout << A[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+
+    cout << "Matrix B:\n";
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
+            cout << B[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+
+    cout << "Matrix C (A * B) using Strassen algorithm:\n";
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
+            cout << C[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
+
+/////////////////////////////////////////////////Q6///////////////////////////////////////////////////
+Write a program to sort the elements of an array using Count Sort.(Radix sort+count sort)
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int findMax(int arr[], int n) {
+    int max_element = arr[0];
+
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > max_element) {
+            max_element = arr[i];
+        }
+    }
+
+    return max_element;
+}
+
+void countsort(int A[], int B[], int n, int exp) {
+    int C[10] = {0};
+
+    for (int j = 0; j < n; j++) {
+        C[(A[j] / exp) % 10]++;
+    }
+
+    for (int i = 1; i < 10; i++) {
+        C[i] += C[i - 1];
+    }
+
+    for (int j = n - 1; j >= 0; j--) {
+        B[C[(A[j] / exp) % 10] - 1] = A[j];
+        C[(A[j] / exp) % 10]--;
+    }
+}
+
+void radixsort(int arr[], int n) {
+    int max_element = findMax(arr, n);
+
+    for (int exp = 1; exp <= max_element; exp *= 10) {
+        int output[n];
+        countsort(arr, output, n, exp);
+        for (int i = 0; i < n; i++) {
+            arr[i] = output[i];
+        }
+    }
+}
+
+int main() {
+    int n;
+    cout << "Enter the number of elements: ";
+    cin >> n;
+    vector<int> arr(n);
+    cout << "Enter the elements: ";
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    radixsort(arr.data(), n);
+
+    cout << "Sorted array: ";
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+
+
+
+/////////////////////////////////////////////////Q7///////////////////////////////////////////////////
+
+Display the data stored in a given graph using the Breadth-First Search algorithm
+
+
+/////////////////////////////////////////////////Q8///////////////////////////////////////////////////
+
+
+Display the data stored in a given graph using the Depth-First Search algorithm.
+
+/////////////////////////////////////////////////Q9///////////////////////////////////////////////////
+
+Write a program to determine a minimum spanning tree of a graph using the Prim’s
+algorithm
+
+
+
+#include <iostream>
+#include <vector>
+#include <limits>
+
+using namespace std;
+
+const int INF = numeric_limits<int>::max();
+
+// Structure to represent a vertex
+struct Vertex {
+    int key;
+    int parent;
+    bool inMST;
+    Vertex() : key(INF), parent(-1), inMST(false) {}
+};
+
+// Function to find the vertex with minimum key value
+int findMinKey(const vector<Vertex> &vertices) {
+    int minKey = INF;
+    int minIndex = -1;
+    for (int i = 0; i < vertices.size(); i++) {
+        if (!vertices[i].inMST && vertices[i].key < minKey) {
+            minKey = vertices[i].key;
+            minIndex = i;
+        }
+    }
+    return minIndex;
+}
+
+// Function to print the adjacency matrix
+void printAdjMatrix(const vector<vector<int>> &graph) {
+    cout << "Adjacency Matrix:" << endl;
+    for (const auto &row : graph) {
+        for (int weight : row) {
+            if (weight == INF)
+                cout << "INF ";
+            else
+                cout << weight << " ";
+        }
+        cout << endl;
+    }
+}
+
+// Function to print the MST edges
+void printMST(const vector<Vertex> &vertices) {
+    cout << "Minimum Spanning Tree (MST):" << endl;
+    cout << "Edge \t Weight" << endl;
+    for (int i = 1; i < vertices.size(); ++i) {
+        cout << vertices[i].parent << " - " << i << "\t  " << vertices[i].key << endl;
+    }
+}
+
+// Prim's algorithm to find Minimum Spanning Tree
+void MST_Prim(vector<vector<int>> &graph, int startVertex) {
+    int V = graph.size(); // Number of vertices
+    vector<Vertex> vertices(V);
+
+    // Initialize vertices
+    for (int i = 0; i < V; ++i) {
+        vertices[i].key = INF;
+        vertices[i].parent = -1;
+    }
+
+    vertices[startVertex].key = 0;
+
+    for (int count = 0; count < V - 1; ++count) {
+        int u = findMinKey(vertices);
+        vertices[u].inMST = true;
+
+        for (int v = 0; v < V; ++v) {
+            if (graph[u][v] && !vertices[v].inMST && graph[u][v] < vertices[v].key) {
+                vertices[v].parent = u;
+                vertices[v].key = graph[u][v];
+            }
+        }
+    }
+
+    // Print Adjacency Matrix and MST
+    printAdjMatrix(graph);
+    printMST(vertices);
+}
+
+int main() {
+    int V;
+    cout << "Enter the number of vertices: ";
+    cin >> V;
+
+    // Initialize the graph with all edges as INF
+    vector<vector<int>> graph(V, vector<int>(V, INF));
+
+    cout << "Enter the weights for edges ('0' for no edge):" << endl;
+    for (int i = 0; i < V; ++i) {
+        for (int j = 0; j < V; ++j) {
+            cout << "Enter weight for edge from vertex " << i << " to vertex " << j << ": ";
+            cin >> graph[i][j];
+        }
+    }
+
+    int startVertex;
+    cout << "Enter the starting vertex (0-based indexing): ";
+    cin >> startVertex;
+
+    MST_Prim(graph, startVertex);
+
+    return 0;
+}
+
+/////////////////////////////////////////////////Q10///////////////////////////////////////////////////
+Write a program to solve the 0-1 knapsack problem.
+
+
+
+
+
+
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+struct Item {
+    int weight;
+    int value;
+};
+
+int knapsack(int W, const Item items[], int n) {
+    int dp[n + 1][W + 1];
+
+    cout << "DP array table:" << endl;
+    cout << "\t";
+    for (int w = 0; w <= W; ++w) {
+        cout << "W=" << w << "\t";
+    }
+    cout << endl;
+    for (int i = 0; i <= n; ++i) {
+        cout << "Item " << i << "\t";
+        for (int w = 0; w <= W; ++w) {
+            if (i == 0 || w == 0) {
+                dp[i][w] = 0;
+            } else if (items[i - 1].weight <= w) {
+                dp[i][w] = max(dp[i - 1][w], items[i - 1].value + dp[i - 1][w - items[i - 1].weight]);
+            } else {
+                dp[i][w] = dp[i - 1][w];
+            }
+            cout << dp[i][w] << "\t";
+        }
+        cout << endl;
+    }
+    cout << endl;
+
+    return dp[n][W];
+}
+
+int main() {
+    int n;
+    cout << "Enter the number of items: ";
+    cin >> n;
+
+    Item items[n];
+    for (int i = 0; i < n; ++i) {
+        cout << "Enter weight and value of item " << i + 1 << ": ";
+        cin >> items[i].weight >> items[i].value;
+    }
+
+    int W;
+    cout << "Enter the knapsack capacity: ";
+    cin >> W;
+
+    cout << "Weight\tValue\tValue/Weight" << endl;
+    for (int i = 0; i < n; ++i) {
+        cout << items[i].weight << "\t" << items[i].value << "\t" << static_cast<double>(items[i].value) / items[i].weight << endl;
+    }
+
+    cout << "Maximum value that can be obtained: " << knapsack(W, items, n) << endl;
+
+    return 0;
+}
+
+
+
