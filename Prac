@@ -518,7 +518,7 @@ int main() {
     cout << "Enter the starting node: ";
     cin >> start_node;
 
-    cout << "DFS Traversal: ";
+    cout << "BFS Traversal: ";
     BFS(graph, start_node);
 
     return 0;
